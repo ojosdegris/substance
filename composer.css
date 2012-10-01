@@ -318,6 +318,27 @@ h2 { font-size: 160%; padding-bottom: 15px; }
   z-index: 50;
 }*/
 
+
+#document .properties {
+  background: #fff;
+}
+
+#document .properties .document-title {
+  padding: 50px 80px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+#document .properties .document-abstract {
+  padding: 40px 80px;
+  padding-bottom: 60px;
+  font-size: 20px;
+  font-family: 'Open Sans',Arial,sans-serif;
+  color: #777;
+  text-align: center;
+}
+
 #document .nodes {
   overflow: visible;
   /*overflow: auto;*/
@@ -372,7 +393,7 @@ h2 { font-size: 160%; padding-bottom: 15px; }
   top: 10px;
   line-height: 30px;
   font-family: 'Open Sans',Arial,sans-serif;
-  background: url(/images/icons/comment.png) center no-repeat;
+  background: url(images/icons/comment.png) center no-repeat;
   padding-right: 50px;
   padding-left: 5px;
   font-size: 13px;
@@ -392,7 +413,7 @@ h2 { font-size: 160%; padding-bottom: 15px; }
   color: #fff;
   border-radius: 3px;
   opacity: 1.0;
-  background: url(/images/icons/comment-white.png) center no-repeat;
+  background: url(images/icons/comment-white.png) center no-repeat;
   background-color: #00B7E1;
 }
 
@@ -443,7 +464,9 @@ h2 { font-size: 160%; padding-bottom: 15px; }
   background: blue;
 }
 
-.content-node.text .comment { background-color: #B9CE3F; }
+.content-node .mark-1 { background-color: #B9CE3F; color: #fff; }
+.content-node .mark-2 { background-color: green; color: #fff; }
+.content-node .mark-3 { background-color: blue; color: #fff; }
 .content-node.text .em { font-style: italic; }
 .content-node.text .link { background-color: #00CFEA; }
 .content-node.text .str { font-weight: bold; }

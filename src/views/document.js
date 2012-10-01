@@ -29,10 +29,10 @@ sc.views.Document = Dance.Performer.extend({
 
     this.model.document.annotations.on('operation:applied', function(operation) {
       switch(operation.op[0]) {
-        case "move": that.annotations.move(operation.op[1]); break;
-        case "insert": that.annotations.insert(operation.op[1]); break;
-        case "update": that.annotations.update(operation.op[1]); break;
-        case "delete": that.annotations.delete(operation.op[1]); break;
+        case "move": that.moveAnnotation(operation.op[1]); break;
+        case "insert": that.insertAnnotation(operation.op[1]); break;
+        case "update": that.updateAnnotation(operation.op[1]); break;
+        case "delete": that.deleteAnnotation(operation.op[1]); break;
       }
     });
 
@@ -43,19 +43,23 @@ sc.views.Document = Dance.Performer.extend({
   },
 
   // Handle annotation updates
-  annotations: {
-    move: function() {
+  moveAnnotation: function() {
 
-    },
-    update: function() {
+  },
 
-    },
-    insert: function(options) {
-      console.log("annotation inserted", options);
-    },
-    delete: function() {
+  updateAnnotation: function() {
 
-    }
+  },
+
+  insertAnnotation: function(options) {
+    _.each(options.data.nodes, function(node) {
+      this.nodes[node].render(); // Re-render affected node
+      this.updateSelections();
+    }, this);
+  },
+
+  deleteAnnotation: function() {
+
   },
 
   // Get a particular node by id
@@ -81,8 +85,6 @@ sc.views.Document = Dance.Performer.extend({
     var node = this.nodes[options.id];
     node.render(); // Re-render that updated node
   },
-
-
 
   // Nodes have been deleted
   delete: function(options) {
@@ -115,7 +117,7 @@ sc.views.Document = Dance.Performer.extend({
         "id": type+":"+Math.uuid(),
         "type": type,
         "target": target,
-        "properties": properties
+        "data": properties
       }],
       user: this.model.user
     });
@@ -241,9 +243,52 @@ sc.views.Document = Dance.Performer.extend({
     this.model.select([id]);
   },
 
+
+  initSurface: function(property) {
+    var that = this;
+
+    this.surface = new Substance.Surface({
+      el: this.$('.document-'+property),
+      content: that.model.document.content.properties[property]
+    });
+
+
+    // Events
+    // ------
+
+    // Returns all annotations matching that selection
+    // this.surface.on('selection:change', function(sel) {
+    //   console.log('selection:change', sel, that.surface.selection());
+    // });
+
+    this.surface.on('surface:active', function(sel) {
+      console.log(property+' surface activated');
+      // app.view.model.select([that.model.id], {edit: true});
+    });
+
+    this.surface.on('content:changed', function(content, prevContent) {
+      var delta = _.extractOperation(prevContent, content);
+
+      console.log("Partial Text Update", delta);
+
+      var opts = {};
+      opts[property] = delta;
+
+      that.model.document.apply({
+        "op": ["set", opts],
+        "user": "michael"
+      });
+    });
+  },
+
   // Initial render of all nodes
   render: function () {
     this.$el.html(_.tpl('document', this.model));
+
+    // Init editor for document abstract and title
+    // this.initSurface("abstract");
+    // this.initSurface("title");
+
     this.model.document.list(function(node) {
       $(this.nodes[node.id].render().el).appendTo(this.$('.nodes'));
     }, this);

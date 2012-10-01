@@ -27,29 +27,34 @@ sc.views.Node.define('section', {
     var that = this;
 
     this.surface = new Substance.Surface({
-      el: this.$('.content'),
-      content: this.model.content
+      el: this.$('.content')[0],
+      content: this.model.content,
+      annotations: [{
+        "id": "a:1",
+        "type": "comment",
+        "pos": [5,4]
+      }]
     });
 
     // Events
     // ------
 
-    // Returns all annotations matching that selection
-    this.surface.on('selection:change', function(sel) {
-      console.log('selection:change', sel, that.surface.selection());
+    // Hackish way to prevent node selection to be triggered two times
+    this.$('.content').click(function() {
+      return false;
     });
 
     this.surface.on('surface:active', function(sel) {
       app.view.model.select([that.model.id], {edit: true});
     });
 
-    this.surface.on('text:change', function(content, prevContent) {
+    this.surface.on('content:changed', function(content, prevContent) {
       var delta = _.extractOperation(prevContent, content);
 
       console.log("Partial Text Update", delta);
 
       var op = {
-        op: ["update", {id: that.model.id, "delta": delta}],
+        op: ["update", {id: that.model.id, "data": delta}],
         user: "michael"
       };
       that.document.apply(op);
