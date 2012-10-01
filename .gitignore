@@ -15,6 +15,7 @@ _Yardoc
 .yardoc
 tmp/*
 node_modules/*
+_site/*
 
 /.settings.xml
 /config.json.edge
