@@ -59,29 +59,30 @@ sc.views.Node.define('text', {
     });
 
     this.surface.on('content:changed', function(content, prevContent, ops) {
-      var delta = _.extractOperation(prevContent, content);
+      console.log(content, ops);
+      // var delta = _.extractOperation(prevContent, content);
 
-      console.log("Partial Text Update", delta);
+      // console.log("Partial Text Update", delta);
 
-      // Applying annotation ops...
-      _.each(ops, function(op) {
-          // add the node reference
-          op[1].data.node = that.model.id;
-          console.log('applying op', op);
-          that.document.annotations.apply({
-            op: op,
-            user: "michael"
-          });
-      });
+      // // Applying annotation ops...
+      // _.each(ops, function(op) {
+      //     // add the node reference
+      //     op[1].data.node = that.model.id;
+      //     console.log('applying op', op);
+      //     that.document.annotations.apply({
+      //       op: op,
+      //       user: "michael"
+      //     });
+      // });
 
-      if (content !== prevContent) {
-        var op = {
-          op: ["update", {id: that.model.id, "data": delta}],
-          user: "michael"
-        };
+      // if (content !== prevContent) {
+      //   var op = {
+      //     op: ["update", {id: that.model.id, "data": delta}],
+      //     user: "michael"
+      //   };
 
-        that.document.apply(op);
-      }
+      //   that.document.apply(op);
+      // }
       
     });
   },
