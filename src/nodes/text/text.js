@@ -36,9 +36,19 @@ sc.views.Node.define('text', {
     this.surface = new Substance.Surface({
       el: this.$('.content')[0],
       content: this.model.content,
-      annotations: annotations
+      annotations: annotations,
+      types: {
+         "em": {
+            "inclusive": false
+         },
+         "mark-1": {
+            "inclusive": true
+         },
+         "mark-2": {
+            "inclusive": false
+         }
+      }
     });
-
 
 
     // Events
