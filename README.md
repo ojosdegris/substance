@@ -1,8 +1,11 @@
-# Substance
+## Substance
 
 Substance is an open platform for collaborative composition and sharing of digital documents. Substance is free to use and Open Source from tip to toe.
 
 For docs see: http://interior.substance.io/modules/substance.html
+
+# Substance 2
+
 
 For an early demo see: http://interior.substance.io/substance/
 
